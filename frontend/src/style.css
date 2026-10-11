@@ -1,0 +1,154 @@
+/* Every text/background pair below is at least 7:1 (WCAG AAA). Checked numbers are in frontend/DESIGN.md. */
+:root {
+  --ink: #1a1a1a;
+  --muted: #4a4a4a;
+  --paper: #fffdf7;
+  --card: #fff;
+  --line: #d6d3cc;
+  --hover: #f1efe8;
+  --accent: #0a4f96;
+  --listening: #a3201a;
+  --thinking: #3a3a3a;
+  --ok: #14532d;
+  --ok-bg: #eef7f0;
+  --focus: #0a4f96;
+  --width: 34rem;
+  --width-wide: 52rem;
+
+  /* A percentage, not px, so the browser's own text-size setting still scales the whole page. 150% = 24px by default. */
+  font-size: 150%;
+  font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
+
+/* Dark for anyone who picked it in their system settings; some readers with cataracts find it eases glare.
+   Same 7:1 rule. The talk button keeps its colours, since white on them already passes. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #f2f0ea;
+    --muted: #c2bfb8;
+    --paper: #141414;
+    --card: #1f1f1f;
+    --line: #6a6862;
+    --hover: #2e2e2e;
+    --ok: #9be3b0;
+    --ok-bg: #12301d;
+    --focus: #8ab8ff;
+    color-scheme: dark;
+  }
+}
+
+h1 { font-size: 1.3rem; margin: 0; }
+h2 { font-size: 1.05rem; margin: 0 0 0.5rem; }
+p { margin: 0 0 0.75rem; }
+
+/* Buttons are 2.2em tall: about 53px, or 45px for the smaller chips and footer. Both clear the 44px touch minimum. */
+button {
+  min-height: 2.2em;
+  padding: 0.35em 0.9em;
+  border: 3px solid var(--ink);
+  border-radius: 0.5em;
+  background: var(--card);
+  cursor: pointer;
+}
+button:not(:disabled):hover { background: var(--hover); }
+button:disabled { opacity: 0.55; cursor: default; }
+
+header, main, footer { max-width: var(--width); margin-inline: auto; padding-inline: 1rem; }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1rem; padding-block: 0.75rem 0; }
+.header-total { color: var(--ink); font-weight: 700; }
+main { display: grid; gap: 1.5rem; padding-block: 1rem; }
+
+/* Two columns once both fit at this text size: talking on the left, the order always in view on the right.
+   Media-query em is the browser default (16px), and 80em matches --width-wide at 150%. */
+@media (min-width: 80em) {
+  header, main, footer { max-width: var(--width-wide); }
+  main { grid-template-columns: minmax(0, 1fr) 18rem; align-items: start; }
+  aside { position: sticky; top: 1rem; }
+  .header-total { display: none; }
+}
+
+/* The one main action: big, same place every time, state shown by words and icon as well as colour. */
+.talk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15em;
+  width: 100%;
+  min-height: 5.5em;
+  border-color: var(--accent);
+  border-radius: 1em;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.15em;
+  font-weight: 700;
+}
+.talk svg { width: 1.6em; height: 1.6em; }
+.talk small { font-size: 0.7em; font-weight: 400; }
+.talk:not(:disabled):hover { background: var(--accent); filter: brightness(0.9); }
+.talk.listening { background: var(--listening); border-color: var(--listening); }
+.talk.thinking, .talk:disabled { background: var(--thinking); border-color: var(--thinking); opacity: 1; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .talk.listening { animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 0.4em rgb(163 32 26 / 0.25); } }
+}
+
+.note { padding: 0.75rem 1rem; border: 3px solid var(--ink); border-radius: 0.75rem; background: var(--card); }
+
+.exchange { margin-block: 1.25rem; padding: 1rem 1.25rem; border: 2px solid var(--line); border-radius: 0.75rem; background: var(--card); }
+.who { display: block; font-size: 0.75em; font-weight: 700; color: var(--muted); }
+.you { color: var(--muted); }
+.shop { font-size: 1.25em; font-weight: 700; }
+.row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+/* The PIN pad: a phone-style 3 by 4 grid with big keys, and a pay button that names the amount. */
+.checkout { margin-block: 0 1.5rem; padding: 1rem 1.25rem; border: 3px solid var(--accent); border-radius: 0.75rem; background: var(--card); }
+.checkout h2 { font-size: 1.2em; }
+#pin { width: 6em; min-height: 2.2em; padding: 0.2em 0.5em; border: 3px solid var(--ink); border-radius: 0.4em; background: var(--card); font-size: 1.2em; letter-spacing: 0.4em; }
+.keypad { display: grid; grid-template-columns: repeat(3, minmax(0, 4.5em)); gap: 0.5rem; margin-block: 1rem; }
+.keypad button { min-height: 2.6em; font-size: 1.1em; font-weight: 700; }
+.pay { border-color: var(--accent); background: var(--accent); color: #fff; font-weight: 700; }
+.pay:not(:disabled):hover { background: var(--accent); filter: brightness(0.9); }
+
+.try { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.chip { border-width: 2px; border-radius: 2em; font-size: 0.85em; }
+
+form label { display: block; margin-bottom: 0.3rem; font-weight: 700; }
+input:not([type]) { flex: 1; min-width: 8em; min-height: 2.2em; padding: 0.3em 0.5em; border: 3px solid var(--ink); border-radius: 0.4em; background: var(--card); }
+
+details { margin-block: 1.5rem; }
+summary { padding-block: 0.4em; font-weight: 700; cursor: pointer; }
+.log { margin: 0; padding: 0; list-style: none; }
+.log li { padding-block: 0.5rem; border-bottom: 2px solid var(--line); }
+.log p { margin: 0.2rem 0; }
+.log .who { display: inline; margin-right: 0.5em; }
+
+aside { padding: 1rem 1.25rem; border: 3px solid var(--ink); border-radius: 0.75rem; background: var(--card); }
+.lines { margin: 0; padding: 0; list-style: none; }
+.lines li { display: grid; grid-template-columns: auto 1fr auto; gap: 0.6rem; padding-block: 0.5rem; border-bottom: 2px solid var(--line); }
+.lines li.changed { padding-left: 0.6rem; background: var(--ok-bg); box-shadow: inset 0.3em 0 0 var(--ok); }
+.tag { margin-left: 0.4em; font-size: 0.7em; font-weight: 700; color: var(--ok); }
+.qty { font-weight: 700; }
+.price, .total { font-variant-numeric: tabular-nums; }
+.total { display: flex; justify-content: space-between; margin-block: 0.75rem 0.5rem; font-size: 1.2em; font-weight: 700; }
+.muted { color: var(--muted); }
+.held-note { margin-block: 0.5rem 0.75rem; padding: 0.6rem 0.8rem; border: 2px solid var(--ink); border-radius: 0.6rem; }
+.held-note p { margin-bottom: 0.4rem; }
+/* A real link styled as a big button: on a phone it dials, on a computer it shows the number to call. */
+.call { display: inline-flex; align-items: center; min-height: 2.2em; padding: 0.3em 0.8em; border: 3px solid var(--accent); border-radius: 0.5em; background: var(--accent); color: #fff; font-size: 0.85em; font-weight: 700; text-decoration: none; }
+.small { font-size: 0.85em; }
+
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: start; gap: 1rem; padding-block: 1rem 2rem; border-top: 2px solid var(--line); font-size: 0.85em; }
+footer details { margin: 0; }
+.toggle { display: flex; align-items: center; gap: 0.5em; min-height: 2.2em; }
+.toggle input { width: 1.3em; height: 1.3em; accent-color: var(--accent); }
+.toggle select { min-height: 2.2em; padding: 0.2em 0.4em; border: 3px solid var(--ink); border-radius: 0.4em; background: var(--card); }

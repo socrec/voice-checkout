@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: voice-checkout-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false
+      - key: PAY_PIN
+        sync: false
+      # Render makes a random one; the family link is https://voice-checkout.onrender.com/caregiver.html#key=<it>
+      - key: FAMILY_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://voice-checkout.onrender.com
+
+  - type: web
+    name: voice-checkout
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    routes:
+      # Same-origin /api calls, so no CORS. Change the host if Render gives the API a different URL.
+      - type: rewrite
+        source: /api/*
+        destination: https://voice-checkout-api.onrender.com/api/*
