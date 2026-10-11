@@ -115,7 +115,7 @@ function App() {
       .then((s) => {
         setCart(s.cart)
         setPaying(s.paying)
-        setContact(s.contact)
+        if (s.contact) setContact(s.contact)
       }, () => {})
   }, [])
 
@@ -333,8 +333,8 @@ function App() {
                 <button type="button" onClick={() => typePin(pin + '0')} disabled={sending}>
                   0
                 </button>
-                <button type="button" onClick={() => setPin(pin.slice(0, -1))} disabled={sending} aria-label="Delete last digit">
-                  ⌫
+                <button type="button" onClick={() => setPin(pin.slice(0, -1))} disabled={sending}>
+                  Delete
                 </button>
               </div>
               <div className="row">

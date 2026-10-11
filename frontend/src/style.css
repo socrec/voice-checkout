@@ -115,7 +115,7 @@ main { display: grid; gap: 1.5rem; padding-block: 1rem; }
 .checkout h2 { font-size: 1.2em; }
 #pin { width: 6em; min-height: 2.2em; padding: 0.2em 0.5em; border: 3px solid var(--ink); border-radius: 0.4em; background: var(--card); font-size: 1.2em; letter-spacing: 0.4em; }
 .keypad { display: grid; grid-template-columns: repeat(3, minmax(0, 4.5em)); gap: 0.5rem; margin-block: 1rem; }
-.keypad button { min-height: 2.6em; font-size: 1.1em; font-weight: 700; }
+.keypad button { min-height: 2.6em; padding-inline: 0.2em; font-size: 1.1em; font-weight: 700; }
 .pay { border-color: var(--accent); background: var(--accent); color: #fff; font-weight: 700; }
 .pay:not(:disabled):hover { background: var(--accent); filter: brightness(0.9); }
 
