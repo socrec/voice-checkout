@@ -177,7 +177,9 @@ def in_background(fn, *args) -> None:
 
 def push(title: str, message: str) -> None:
     try:  # no Click link: it would have to carry the family key through the ntfy server
-        httpx.post(NTFY_URL, content=message.encode(), headers={"Title": title, "Priority": "high", "Tags": "warning"}, timeout=10).raise_for_status()
+        r = httpx.post(NTFY_URL, content=message.encode(), headers={"Title": title, "Priority": "high", "Tags": "warning"}, timeout=10)
+        if r.is_error:  # ntfy's body names the limit hit; the URL stays out of the log because it can hold a token
+            print("Family notification failed:", r.status_code, r.text)
     except httpx.HTTPError as e:
         print("Family notification failed:", e)  # the order still waits on the family page
 
