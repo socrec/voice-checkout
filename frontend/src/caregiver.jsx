@@ -52,7 +52,8 @@ const itemList = (o) => o.items.map((l) => `${l.quantity} × ${l.name}`).join(',
 // It's also kept for this tab, because PayPal's return trip after Connect PayPal lands here without the hash.
 // Not localStorage: a key left on the shopper's own computer could let a caller talk her into approving her own payment.
 const key = (() => {
-  const fromLink = new URLSearchParams(location.hash.slice(1)).get('key')
+  // URLSearchParams reads "+" as a space, and Render's generated key is base64, so keep "+" literal.
+  const fromLink = new URLSearchParams(location.hash.slice(1).replaceAll('+', '%2B')).get('key')
   try {
     if (fromLink) sessionStorage.setItem('familyKey', fromLink)
     return fromLink ?? sessionStorage.getItem('familyKey') ?? ''
